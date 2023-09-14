@@ -1,0 +1,17 @@
+{
+  "name": "reflaxe.javasources",
+  "version": "0.0.1",
+  "description": "A custom Haxe target for Java source files",
+  "url": "http://github.com/EliteMasterEric",
+  "tags": [],
+  "dependencies": {
+    "reflaxe": "git:https://github.com/RobertBorghese/reflaxe"
+  },
+  "classPath": "src/",
+  "releasenote": "Initial release.",
+  "reflaxe": {
+    "name": "javasources",
+    "abbv": "javasrc",
+    "stdPaths": ["std", "std/java/_std"]
+  }
+}

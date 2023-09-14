@@ -1,0 +1,4 @@
+-D javasrc
+-D javasources
+--macro nullSafety("javasrccompiler")
+--macro javasrccompiler.JavaCompilerInit.Start()
