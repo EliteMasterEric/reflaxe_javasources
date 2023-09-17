@@ -1,0 +1,5 @@
+# Build with the original Java target
+--java out-real
+
+# Main function
+-main Code

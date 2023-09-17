@@ -1,7 +1,5 @@
-// A bit of code to compile with your custom compiler.
-//
-// This code has no relevance beyond testing purposes.
-// Please modify and add your own test code!
+// This code acts as a suite of tests for the reflaxe javasources compiler.
+// Each function should compile to the expected Java code.
 
 package;
 

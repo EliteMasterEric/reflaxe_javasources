@@ -1,0 +1,16 @@
+{
+  "dependencies": [
+    {
+      "name": "hxjava",
+      "type": "haxelib",
+      "version": null
+    },
+    {
+      "name": "reflaxe",
+      "type": "git",
+      "dir": null,
+      "ref": "main",
+      "url": "https://github.com/SomeRanDev/reflaxe"
+    }
+  ]
+}
