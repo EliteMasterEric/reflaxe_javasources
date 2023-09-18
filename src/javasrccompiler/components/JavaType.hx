@@ -29,7 +29,7 @@ class JavaType extends JavaBase {
 					withTypeParams(compileEnumName(enumRef.get()), params, pos);
 				}
 			case TInst(clsRef, params): {
-					withTypeParams(compileClassName(clsRef.get()), params, pos);
+					withTypeParams(compileClassName(clsRef.get(), true), params, pos);
 				}
 			case TType(_, _): {
 					compile(Context.follow(type), pos);
@@ -44,11 +44,12 @@ class JavaType extends JavaBase {
 					'object';
 				}
 			case TDynamic(maybeType): {
-        if (maybeType == null) return 'TDynamic(null)';
-        trace('TDynamic(${maybeType})');
-        null;
-      }
-      
+					if (maybeType == null)
+						return 'TDynamic(null)';
+					trace('TDynamic(${maybeType})');
+					null;
+				}
+
 			case TLazy(callback): {
 					compile(callback(), pos);
 				}
@@ -91,8 +92,8 @@ class JavaType extends JavaBase {
 	}
 
 	/**
-	    * A **value type** is either a primitive type or a (C#) struct type.
-	 * @returns `true` if the given type is a **value type**.
+	 * A **value type** is either a primitive type or a (C#) struct type.
+	 	 * @returns `true` if the given type is a **value type**.
 	 */
 	function isValueType(type:Type):Bool {
 		return switch type {
@@ -165,16 +166,6 @@ class JavaType extends JavaBase {
 	 */
 	public function getPackWithoutModule(baseType:BaseType):Array<String> {
 		final pack = baseType.pack.copy();
-
-		if (pack.length > 0) {
-			inline function shouldExcludeLastPackItem(item:String):Bool {
-				return item.toLowerCase() != item;
-			}
-
-			while (pack.length > 0 && shouldExcludeLastPackItem(pack[pack.length - 1])) {
-				pack.pop();
-			}
-		}
 
 		return pack;
 	}

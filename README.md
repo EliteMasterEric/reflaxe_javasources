@@ -17,3 +17,10 @@ Clone the repository, run `haxelib run hmm install` to install dependencies.
 Run `./test.sh` to build the test suite.
 
 Run `cd ./test && haxe ./Test-Real.hxml` to build the test suite with the original Tier 3 target, for comparison.
+
+## To-Do Items
+
+[] Achieve parity in sample project with original target.
+[] Expand sample project to add full coverage compared to original.
+[] Add additional necessary features to target.
+[] Fix issues with root classes.

@@ -5,13 +5,11 @@ package javasrccompiler;
 // Import relevant Haxe macro types.
 import haxe.macro.Expr;
 import haxe.macro.Type;
-
 // Import Reflaxe types
 import reflaxe.PluginCompiler;
 import reflaxe.data.ClassFuncData;
 import reflaxe.data.ClassVarData;
 import reflaxe.data.EnumOptionData;
-
 // Import javasrc types
 import javasrccompiler.components.JavaClass;
 import javasrccompiler.components.JavaEnum;
@@ -20,15 +18,26 @@ import javasrccompiler.components.JavaType;
 
 using StringTools;
 
+using reflaxe.helpers.BaseTypeHelper;
+using reflaxe.helpers.ClassTypeHelper;
+using reflaxe.helpers.ModuleTypeHelper;
+using reflaxe.helpers.NullableMetaAccessHelper;
+using reflaxe.helpers.PositionHelper;
+using reflaxe.helpers.TypedExprHelper;
+using reflaxe.helpers.TypeHelper;
+
 /**
  * The class used to compile the Haxe AST into your target language's code. 
  * This must extend from `BaseCompiler`. `PluginCompiler<T>` is a child class
  * that provides the ability for people to make plugins for your compiler.
+ * 
+ * // addCompileEndCallback(() -> Void)
+ * // err(message)
  */
 class JavaCompiler extends PluginCompiler<JavaCompiler> {
-  public static final DEFAULT_PACKAGE = 'haxe.root';
+	public static final DEFAULT_PACKAGE = 'haxe.root';
 
-  static final BootFilename = "Main.java";
+	static final BootFilename = "Main.java";
 
 	/**
 	 * Handles implementation of `compileClassImpl`.
@@ -69,7 +78,11 @@ class JavaCompiler extends PluginCompiler<JavaCompiler> {
 		typeComp = new JavaType(self);
 	}
 
+	/**
+	 * Called at the start of compilation.
+	 */
 	public override function onCompileStart() {
+		super.onCompileStart();
 		setupMainFunction();
 	}
 
@@ -81,13 +94,7 @@ class JavaCompiler extends PluginCompiler<JavaCompiler> {
 		}
 	}
 
-	/**
-		Returns the content generated for the `HaxeBoot.cs`.
-
-		TODO:
-			Store `args` to use with `Sys.args()` later.
-	**/
-	function haxeBootContent(csCode: String) {
+	function haxeBootContent(csCode:String) {
 		return StringTools.trim('
 package haxe.root;
 
@@ -97,26 +104,48 @@ class HaxeBoot {
 	}
 }
 		');
+
 	}
 
 	/**
 	 * Required for adding semicolons at the end of each line. Overridden from Reflaxe.
 	 */
 	override function formatExpressionLine(expr:String):String {
-		return '$expr;';
+		return expr.startsWith('//') ? expr : '$expr;';
+	}
+
+	public override function shouldGenerateClass(cls:ClassType) {
+		return super.shouldGenerateClass(cls);
+	}
+
+	public override function shouldGenerateEnum(enumType:EnumType): Bool {
+		return super.shouldGenerateEnum(enumType);
+	}
+
+	public override function shouldGenerateClassField(cls:ClassField): Bool {
+		return super.shouldGenerateClassField(cls);
 	}
 
 	/**
 	 * Called at the end of compilation.
 	 */
-	public override function onCompileEnd() {}
+	public override function onCompileEnd() {
+		super.onCompileEnd();
+	}
+
+	/**
+	 * Called when output is complete.
+	 */
+	 public override function onOutputComplete() {
+		super.onOutputComplete();
+	 }
 
 	/**
 	 * Generate the Java output given the Haxe class information.
 	 * Given the haxe.macro.ClassType and its variables and fields, return the output String.
 	 * If `null` is returned, the class is ignored and nothing is compiled for it.
 	 */
-	public function compileClassImpl(classType: ClassType, varFields: Array<ClassVarData>, funcFields: Array<ClassFuncData>): Null<String> {
+	public function compileClassImpl(classType:ClassType, varFields:Array<ClassVarData>, funcFields:Array<ClassFuncData>):Null<String> {
 		return classComp.compile(classType, varFields, funcFields);
 	}
 
@@ -153,8 +182,8 @@ class HaxeBoot {
 	 * Get the name of the `ClassType` as it should appear in
 	 * the Java output.
 	 */
-	public function compileClassName(classType:ClassType):String {
-		return typeComp.compileClassName(classType);
+	public function compileClassName(classType:ClassType, withPackage:Bool = false):String {
+		return typeComp.compileClassName(classType, withPackage);
 	}
 
 	// ---

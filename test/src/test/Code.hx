@@ -1,7 +1,7 @@
 // This code acts as a suite of tests for the reflaxe javasources compiler.
 // Each function should compile to the expected Java code.
 
-package;
+package test;
 
 enum TestEnum {
 	One;

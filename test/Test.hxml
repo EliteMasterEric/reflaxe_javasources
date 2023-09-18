@@ -9,8 +9,12 @@
 #    haxelib run reflaxe test path/to/file.hxml
 # -----------------------------------------------------------------------------------
 
+--class-path src
+
 # Set output folder for javasources
 -D javasrc-output=out
+# Set this flag to also build a JAR file using `jar cf`
+# -D javasrc-makejar
 
 # Main function
--main Code
+-main test.Code
