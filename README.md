@@ -1,6 +1,6 @@
 # Reflaxe JavaSources
 
-This Haxe library utilizes Reflaxe to provide a custom compilation target which generates Java sources (`.java` files).
+This Haxe library utilizes [Reflaxe](https://github.com/SomeRanDev/reflaxe) to provide a custom compilation target which generates Java sources (`.java` files).
 
 This is intended to act as a replacement for the existing [Tier 3 Java target](https://haxe.org/documentation/introduction/compiler-targets.html), for use cases where the Tier 1 JVM target (which directly produces `.class` files) is not suitable.
 
